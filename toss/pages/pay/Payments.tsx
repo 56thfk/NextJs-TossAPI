@@ -1,3 +1,5 @@
+// 이 코드는 아직 쓰이지 않는 코드
+
 import { loadTossPayments } from '@tosspayments/payment-sdk'
 const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
 

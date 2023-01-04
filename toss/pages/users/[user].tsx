@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Payments from "../pay/Payments"
 import { useRouter } from 'next/router'
-import { useEffect } from "react"
-
 import { loadTossPayments } from '@tosspayments/payment-sdk'
+import { userAgentFromString } from "next/server"
+
 const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq'
+const secretKey = 'test_sk_D4yKeq5bgrpyy4BbnlB8GX0lzW6Y'
+// 테스트 키 : test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq
+// 내 키 : test_ck_XLkKEypNArWeenyA9Me3lmeaxYG5
 
 const user = () => {
   const { query } = useRouter()
@@ -21,6 +24,11 @@ const user = () => {
       customerName: username,
       successUrl: 'http://localhost:8080/success',
       failUrl: 'http://localhost:8080/fail',
+      headers: {
+        Authorization: 
+          'Basic' +  Buffer.from(secretKey + ':').toString('base64'),
+          'Content-Type': 'application/json'
+      }
     })
     .catch(function (error) {
       if (error.code === 'USER_CANCEL') {
@@ -40,5 +48,20 @@ const user = () => {
     </div>
   )
 }
+
+// export const getServerSideProps = async () => {
+//   try {
+//     let user
+
+//     const userRes = await fetch(`https://api.tosspayments.com/v1/payments`, {
+//       headers: {
+//         Authorization: 'Basic dGVzdF9za19ENHlLZXE1YmdycHl5NEJibmxCOEdYMGx6VzZZOg=='
+//       }
+//     })
+//     user = await userRes.json()
+//   } catch(e) {
+//     console.log(e)
+//   }
+// }
 
 export default user
